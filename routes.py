@@ -121,7 +121,7 @@ def submit_test(lesson_id):
 
 
 # Admin routes
-@app.route('/admin/login', methods=['GET', 'POST'])
+@app.route('/bod/login', methods=['GET', 'POST'])
 def admin_login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -133,21 +133,21 @@ def admin_login():
     return render_template('admin/login.html', form=form)
 
 
-@app.route('/admin/logout')
+@app.route('/bod/logout')
 @login_required
 def admin_logout():
     logout_user()
     return redirect(url_for('index'))
 
 
-@app.route('/admin')
+@app.route('/bod')
 @login_required
 def admin_dashboard():
     levels = Level.query.order_by(Level.order).all()
     return render_template('admin/dashboard.html', levels=levels)
 
 
-@app.route('/admin/lesson/<int:lesson_id>/edit')
+@app.route('/bod/lesson/<int:lesson_id>/edit')
 @login_required
 def edit_lesson(lesson_id):
     lesson = Lesson.query.get_or_404(lesson_id)
@@ -156,7 +156,7 @@ def edit_lesson(lesson_id):
     return render_template('admin/edit_lesson.html', lesson=lesson, questions=questions, exercises=exercises)
 
 
-@app.route('/admin/lesson/<int:lesson_id>/update', methods=['POST'])
+@app.route('/bod/lesson/<int:lesson_id>/update', methods=['POST'])
 @login_required
 def update_lesson(lesson_id):
     lesson = Lesson.query.get_or_404(lesson_id)
@@ -205,7 +205,7 @@ def update_lesson(lesson_id):
     return redirect(url_for('edit_lesson', lesson_id=lesson_id))
 
 
-@app.route('/admin/level/new', methods=['GET', 'POST'])
+@app.route('/bod/level/new', methods=['GET', 'POST'])
 @login_required
 def new_level():
     form = LevelForm()
@@ -222,7 +222,7 @@ def new_level():
     return render_template('admin/edit_lesson.html', form=form, title='Новый уровень')
 
 
-@app.route('/admin/section/new', methods=['GET', 'POST'])
+@app.route('/bod/section/new', methods=['GET', 'POST'])
 @login_required
 def new_section():
     form = SectionForm()
@@ -242,7 +242,7 @@ def new_section():
     return render_template('admin/edit_lesson.html', form=form, title='Новый раздел')
 
 
-@app.route('/admin/lesson/new', methods=['GET', 'POST'])
+@app.route('/bod/lesson/new', methods=['GET', 'POST'])
 @login_required
 def new_lesson():
     form = LessonForm()
