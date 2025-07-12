@@ -1,0 +1,352 @@
+/* Variables for theming */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --white: #ffffff;
+    --text-color: #212529;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --bg-color: #ffffff;
+    --card-bg: #ffffff;
+    --shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #ffffff;
+    --text-muted: #b0b0b0;
+    --border-color: #333333;
+    --shadow: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.075);
+}
+
+/* Base styles */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Cards */
+.card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.1);
+}
+
+/* Level cards */
+.level-card .level-number {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-color), #0056b3);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Section cards */
+.section-card .section-number {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* Lesson cards */
+.lesson-card {
+    border-left: 4px solid var(--primary-color);
+}
+
+.lesson-card .lesson-number {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+}
+
+/* Navigation styles */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.breadcrumb {
+    background-color: transparent;
+    padding: 0.5rem 0;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "→";
+    color: var(--text-muted);
+}
+
+/* Lesson content */
+.lesson-content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.lesson-content h1,
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4,
+.lesson-content h5,
+.lesson-content h6 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.lesson-content code {
+    background-color: var(--light-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: 'Courier New', monospace;
+}
+
+[data-theme="dark"] .lesson-content code {
+    background-color: #2d2d2d;
+    color: #f8f8f2;
+}
+
+.lesson-content pre {
+    background-color: var(--light-color);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid var(--primary-color);
+    overflow-x: auto;
+}
+
+[data-theme="dark"] .lesson-content pre {
+    background-color: #2d2d2d;
+}
+
+/* Exercise styles */
+.exercise-description {
+    background-color: var(--light-color);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid var(--info-color);
+}
+
+[data-theme="dark"] .exercise-description {
+    background-color: #2d2d2d;
+}
+
+/* Test styles */
+.test-header {
+    text-align: center;
+    padding: 2rem 0;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.test-actions {
+    position: sticky;
+    bottom: 0;
+    background-color: var(--bg-color);
+    padding: 1rem 0;
+    border-top: 2px solid var(--border-color);
+    margin-top: 2rem;
+}
+
+/* Progress styles */
+.progress {
+    height: 0.75rem;
+    background-color: var(--light-color);
+}
+
+[data-theme="dark"] .progress {
+    background-color: #333333;
+}
+
+/* Admin styles */
+.level-admin-card {
+    border-left: 5px solid var(--primary-color);
+}
+
+.section-admin {
+    border-left: 3px solid var(--secondary-color);
+    padding-left: 1rem;
+}
+
+.question-item,
+.exercise-item {
+    background-color: var(--light-color);
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .question-item,
+[data-theme="dark"] .exercise-item {
+    background-color: #2d2d2d;
+}
+
+/* Empty states */
+.empty-state {
+    padding: 3rem 2rem;
+}
+
+.empty-state i {
+    opacity: 0.5;
+}
+
+/* Form styles */
+.form-control,
+.form-select {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--card-bg);
+    border-color: var(--primary-color);
+    color: var(--text-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Badge customizations */
+.badge {
+    font-size: 0.85em;
+}
+
+/* Button animations */
+.btn {
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .level-number {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 1rem !important;
+    }
+    
+    .lesson-number {
+        min-width: 40px !important;
+        padding: 0.4rem 0.6rem !important;
+    }
+    
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .test-actions .d-flex {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .lesson-navigation .d-flex {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* Fixed bottom progress for tests */
+.fixed-bottom .card {
+    box-shadow: 0 -0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .fixed-bottom .card {
+    box-shadow: 0 -0.5rem 1rem rgba(255, 255, 255, 0.1);
+}
+
+/* Animation for theme transition */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Syntax highlighting for code blocks */
+.hljs {
+    background: var(--light-color) !important;
+    color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .hljs {
+    background: #2d2d2d !important;
+    color: #f8f8f2 !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* Table styles for lesson content */
+.lesson-content table {
+    width: 100%;
+    margin: 1rem 0;
+    border-collapse: collapse;
+}
+
+.lesson-content table th,
+.lesson-content table td {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.lesson-content table th {
+    background-color: var(--light-color);
+    font-weight: bold;
+}
+
+[data-theme="dark"] .lesson-content table th {
+    background-color: #2d2d2d;
+}
+
+/* Footer styles */
+footer {
+    background-color: var(--light-color) !important;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] footer {
+    background-color: #1e1e1e !important;
+}

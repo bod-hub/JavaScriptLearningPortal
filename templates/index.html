@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - JavaScript Learning Platform{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center mb-5">
+    <h1 class="display-4 mb-3">
+        <i class="fas fa-code text-primary"></i>
+        Изучение JavaScript
+    </h1>
+    <p class="lead">Комплексная платформа для изучения JavaScript с теорией, тестами и практическими заданиями</p>
+</div>
+
+{% if levels %}
+    <div class="row">
+        {% for level in levels %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 level-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="level-number me-3">{{ level.order }}</div>
+                            <h5 class="card-title mb-0">{{ level.title }}</h5>
+                        </div>
+                        {% if level.description %}
+                            <p class="card-text text-muted">{{ level.description }}</p>
+                        {% endif %}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary">{{ level.sections|length }} разделов</span>
+                            <a href="{{ url_for('level_detail', level_id=level.id) }}" class="btn btn-outline-primary">
+                                Изучать <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center">
+        <div class="empty-state">
+            <i class="fas fa-book-open fa-4x text-muted mb-3"></i>
+            <h4 class="text-muted">Уроки пока не добавлены</h4>
+            <p class="text-muted">Администратор еще не создал содержимое курса.</p>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Добавить контент
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+
+{% block title %}Редактирование урока - JavaScript Learning Platform{% endblock %}
+
+{% block content %}
+<div class="admin-header mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1><i class="fas fa-edit text-primary"></i> Редактирование урока</h1>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> К панели управления
+        </a>
+    </div>
+</div>
+
+<form method="POST" action="{{ url_for('update_lesson', lesson_id=lesson.id) }}" id="lessonForm">
+    <!-- Basic Lesson Info -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-info-circle"></i> Основная информация</h5>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="title" class="form-label">Название урока</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ lesson.title }}" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="theory_content" class="form-label">Теоретический материал</label>
+                <textarea id="theory_content" name="theory_content" class="form-control">{{ lesson.theory_content or '' }}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- Questions Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-question-circle"></i> Тестовые вопросы</h5>
+                <button type="button" class="btn btn-sm btn-success" onclick="addQuestion()">
+                    <i class="fas fa-plus"></i> Добавить вопрос
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="questions-container">
+                {% for question in questions %}
+                    <div class="question-item border rounded p-3 mb-3" data-question="{{ loop.index0 }}">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6>Вопрос {{ loop.index }}</h6>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeQuestion(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Текст вопроса</label>
+                            <textarea name="question_text" class="form-control" rows="2" required>{{ question.text }}</textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label class="form-label">Вариант A</label>
+                                <input type="text" name="option_a" class="form-control" value="{{ question.option_a }}" required>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label class="form-label">Вариант B</label>
+                                <input type="text" name="option_b" class="form-control" value="{{ question.option_b }}" required>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label class="form-label">Вариант C</label>
+                                <input type="text" name="option_c" class="form-control" value="{{ question.option_c }}" required>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label class="form-label">Вариант D</label>
+                                <input type="text" name="option_d" class="form-control" value="{{ question.option_d }}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-2">
+                            <label class="form-label">Правильный ответ</label>
+                            <select name="correct_answer" class="form-select" required>
+                                <option value="A" {{ 'selected' if question.correct_answer == 'A' }}>A</option>
+                                <option value="B" {{ 'selected' if question.correct_answer == 'B' }}>B</option>
+                                <option value="C" {{ 'selected' if question.correct_answer == 'C' }}>C</option>
+                                <option value="D" {{ 'selected' if question.correct_answer == 'D' }}>D</option>
+                            </select>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Exercises Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-code"></i> Практические задачи</h5>
+                <button type="button" class="btn btn-sm btn-success" onclick="addExercise()">
+                    <i class="fas fa-plus"></i> Добавить задачу
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="exercises-container">
+                {% for exercise in exercises %}
+                    <div class="exercise-item border rounded p-3 mb-3" data-exercise="{{ loop.index0 }}">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6>Задача {{ loop.index }}</h6>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeExercise(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Название задачи</label>
+                            <input type="text" name="exercise_title" class="form-control" value="{{ exercise.title }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Описание задачи</label>
+                            <textarea name="exercise_description" class="form-control" rows="3" required>{{ exercise.description }}</textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Решение (необязательно)</label>
+                            <textarea name="exercise_solution" class="form-control" rows="4">{{ exercise.solution or '' }}</textarea>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Button -->
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-lg">
+            <i class="fas fa-save"></i> Сохранить урок
+        </button>
+    </div>
+</form>
+
+<script>
+// Initialize TinyMCE
+tinymce.init({
+    selector: '#theory_content',
+    height: 400,
+    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+    menubar: false,
+    branding: false,
+    content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; }'
+});
+
+let questionCount = {{ questions|length }};
+let exerciseCount = {{ exercises|length }};
+
+function addQuestion() {
+    const container = document.getElementById('questions-container');
+    questionCount++;
+    
+    const questionHtml = `
+        <div class="question-item border rounded p-3 mb-3" data-question="${questionCount}">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6>Вопрос ${questionCount + 1}</h6>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeQuestion(this)">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Текст вопроса</label>
+                <textarea name="question_text" class="form-control" rows="2" required></textarea>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-2">
+                    <label class="form-label">Вариант A</label>
+                    <input type="text" name="option_a" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <label class="form-label">Вариант B</label>
+                    <input type="text" name="option_b" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <label class="form-label">Вариант C</label>
+                    <input type="text" name="option_c" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <label class="form-label">Вариант D</label>
+                    <input type="text" name="option_d" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="mt-2">
+                <label class="form-label">Правильный ответ</label>
+                <select name="correct_answer" class="form-select" required>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
+            </div>
+        </div>
+    `;
+    
+    container.insertAdjacentHTML('beforeend', questionHtml);
+}
+
+function removeQuestion(button) {
+    button.closest('.question-item').remove();
+    updateQuestionNumbers();
+}
+
+function updateQuestionNumbers() {
+    const questions = document.querySelectorAll('.question-item');
+    questions.forEach((question, index) => {
+        question.querySelector('h6').textContent = `Вопрос ${index + 1}`;
+    });
+}
+
+function addExercise() {
+    const container = document.getElementById('exercises-container');
+    exerciseCount++;
+    
+    const exerciseHtml = `
+        <div class="exercise-item border rounded p-3 mb-3" data-exercise="${exerciseCount}">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6>Задача ${exerciseCount + 1}</h6>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeExercise(this)">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Название задачи</label>
+                <input type="text" name="exercise_title" class="form-control" required>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Описание задачи</label>
+                <textarea name="exercise_description" class="form-control" rows="3" required></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Решение (необязательно)</label>
+                <textarea name="exercise_solution" class="form-control" rows="4"></textarea>
+            </div>
+        </div>
+    `;
+    
+    container.insertAdjacentHTML('beforeend', exerciseHtml);
+}
+
+function removeExercise(button) {
+    button.closest('.exercise-item').remove();
+    updateExerciseNumbers();
+}
+
+function updateExerciseNumbers() {
+    const exercises = document.querySelectorAll('.exercise-item');
+    exercises.forEach((exercise, index) => {
+        exercise.querySelector('h6').textContent = `Задача ${index + 1}`;
+    });
+}
+</script>
+{% endblock %}
