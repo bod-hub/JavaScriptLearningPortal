@@ -30,12 +30,33 @@
             </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('index') }}">
                             <i class="fas fa-home"></i> Главная
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="levelsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-layer-group"></i> Уровни
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="levelsDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('level_1') }}">
+                                <span class="badge bg-success me-2">1</span>Основы JavaScript
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('level_2') }}">
+                                <span class="badge bg-info me-2">2</span>Функции и объекты
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('level_3') }}">
+                                <span class="badge bg-warning me-2">3</span>DOM и события
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('level_4') }}">
+                                <span class="badge bg-danger me-2">4</span>Продвинутый JS
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
                     <li class="nav-item">
                         <button class="btn btn-outline-light btn-sm" onclick="toggleTheme()">
                             <i id="theme-icon" class="fas fa-moon"></i>
