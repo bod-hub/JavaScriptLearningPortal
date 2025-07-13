@@ -383,9 +383,24 @@ main {
 }
 
 /* Lesson card improvements */
+.lessons-list {
+    width: 100%;
+}
+
+.lesson-card {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.lesson-card .card-body {
+    width: 100%;
+    padding: 1.5rem;
+}
+
 .lesson-card .d-flex {
     flex-wrap: wrap;
     gap: 1rem;
+    width: 100%;
 }
 
 .lesson-card .d-flex > div {
@@ -394,7 +409,8 @@ main {
 
 .lesson-card .d-flex > div:first-child {
     flex: 1;
-    min-width: 200px; /* Minimum width for content */
+    min-width: 300px; /* Increased minimum width for content */
+    max-width: calc(100% - 200px); /* Ensure space for buttons */
 }
 
 .lesson-card .d-flex > div:last-child {
@@ -402,6 +418,7 @@ main {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    min-width: 150px; /* Minimum width for button area */
 }
 
 /* Responsive behavior for lesson cards */
@@ -883,11 +900,46 @@ h5.mb-1 {
 .lesson-card .card-body {
     min-width: 0;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .lesson-card h5 {
     margin: 0 0 0.5rem 0;
     font-size: 1.1rem;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+/* Container improvements */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* Card width fixes */
+.card {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Section page specific styles */
+.section-header {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.lessons-list .card {
+    width: 100%;
+    max-width: none;
+}
+
+/* Progress summary card */
+.progress-summary {
+    width: 100%;
+    margin-top: 2rem;
 }
 
 /* Mobile responsiveness improvements */

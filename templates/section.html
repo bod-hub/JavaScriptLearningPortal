@@ -71,7 +71,7 @@
     </div>
 
     <!-- Progress Summary -->
-    <div class="card" style="background-color: var(--light-color); margin-top: 2rem;">
+    <div class="card progress-summary" style="background-color: var(--light-color);">
         <div class="card-body">
             <h6>Прогресс изучения</h6>
             {% set completed_count = progress.values() | select | list | length %}
