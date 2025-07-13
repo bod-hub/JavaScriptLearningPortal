@@ -280,6 +280,25 @@ main {
     }
 }
 
+/* Fix for medium screens (770px+) */
+@media (min-width: 770px) {
+    .lessons-list {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .lessons-list .lesson-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        display: block !important;
+    }
+    
+    .container {
+        max-width: 1200px !important;
+        width: 100% !important;
+    }
+}
+
 /* Level cards */
 .level-card {
     display: flex;
@@ -422,6 +441,36 @@ main {
 }
 
 /* Responsive behavior for lesson cards */
+@media (min-width: 769px) {
+    .lesson-card {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .lesson-card .card-body {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .lesson-card .d-flex {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex-wrap: nowrap;
+    }
+    
+    .lesson-card .d-flex > div:first-child {
+        flex: 1 1 auto;
+        min-width: 0;
+        max-width: calc(100% - 200px);
+    }
+    
+    .lesson-card .d-flex > div:last-child {
+        flex: 0 0 auto;
+        min-width: 150px;
+        max-width: 200px;
+    }
+}
+
 @media (max-width: 768px) {
     .lesson-card .d-flex {
         flex-direction: column;
@@ -931,15 +980,53 @@ h5.mb-1 {
     margin-bottom: 2rem;
 }
 
+.lessons-list {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+}
+
 .lessons-list .card {
-    width: 100%;
-    max-width: none;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+    box-sizing: border-box !important;
 }
 
 /* Progress summary card */
 .progress-summary {
     width: 100%;
     margin-top: 2rem;
+}
+
+/* Force full width for all screen sizes >= 770px */
+@media (min-width: 770px) {
+    main {
+        width: 100% !important;
+    }
+    
+    .container {
+        width: 100% !important;
+        max-width: 1200px !important;
+        box-sizing: border-box !important;
+    }
+    
+    .section-header, 
+    .lessons-list, 
+    .lessons-list .lesson-card,
+    .lessons-list .lesson-card .card,
+    .lessons-list .lesson-card .card-body {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    .lesson-card .d-flex {
+        display: flex !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex-wrap: nowrap !important;
+    }
 }
 
 /* Mobile responsiveness improvements */
