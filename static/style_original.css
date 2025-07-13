@@ -1,0 +1,250 @@
+/* Custom theme variables for Bootstrap override */
+:root {
+    --bs-primary: #007bff;
+    --bs-secondary: #6c757d;
+    --bs-success: #28a745;
+    --bs-danger: #dc3545;
+    --bs-warning: #ffc107;
+    --bs-info: #17a2b8;
+    --bs-light: #f8f9fa;
+    --bs-dark: #343a40;
+}
+
+/* Dark theme */
+[data-bs-theme="dark"] {
+    --bs-body-bg: #121212;
+    --bs-body-color: #ffffff;
+    --bs-border-color: #333;
+}
+
+/* Custom styling for the platform */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Level cards styling */
+.level-card {
+    transition: transform 0.2s ease-in-out;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.level-card:hover {
+    transform: translateY(-5px);
+    text-decoration: none;
+    color: inherit;
+}
+
+.level-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--bs-primary), #0056b3);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+/* Section cards */
+.section-card {
+    transition: transform 0.2s ease-in-out;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.section-card:hover {
+    transform: translateY(-3px);
+    text-decoration: none;
+    color: inherit;
+}
+
+.section-number {
+    background-color: var(--bs-secondary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+/* Lesson cards */
+.lesson-card {
+    transition: transform 0.2s ease-in-out;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.lesson-card:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: inherit;
+}
+
+.lesson-number {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--bs-info), #117a8b);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.lesson-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.lesson-completed {
+    background-color: var(--bs-success);
+    color: white;
+}
+
+.lesson-pending {
+    background-color: var(--bs-warning);
+    color: var(--bs-dark);
+}
+
+/* Progress bars */
+.progress {
+    height: 0.75rem;
+    border-radius: 0.375rem;
+    overflow: hidden;
+}
+
+.progress-bar {
+    transition: width 0.6s ease;
+}
+
+/* Theme toggle button */
+.btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: white;
+}
+
+/* Custom alert styles for dark theme */
+[data-bs-theme="dark"] .alert-success {
+    background-color: #1e3a24;
+    border-color: #2d5a33;
+    color: #4ade80;
+}
+
+[data-bs-theme="dark"] .alert-danger {
+    background-color: #3a1e1e;
+    border-color: #5a2d2d;
+    color: #f87171;
+}
+
+[data-bs-theme="dark"] .alert-warning {
+    background-color: #3a3a1e;
+    border-color: #5a5a2d;
+    color: #fbbf24;
+}
+
+[data-bs-theme="dark"] .alert-info {
+    background-color: #1e2a3a;
+    border-color: #2d3d5a;
+    color: #60a5fa;
+}
+
+/* Tab styling */
+.nav-pills .nav-link {
+    border-radius: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--bs-primary);
+}
+
+/* Form styling */
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+    .level-number {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+    
+    .lesson-number {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+    
+    .d-flex.align-items-center {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Rich text editor adjustments */
+.ql-toolbar {
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+}
+
+.ql-container {
+    border-bottom-left-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+[data-bs-theme="dark"] .ql-toolbar {
+    background-color: var(--bs-dark);
+    border-color: var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] .ql-container {
+    background-color: var(--bs-dark);
+    border-color: var(--bs-border-color);
+    color: var(--bs-body-color);
+}
+
+[data-bs-theme="dark"] .ql-editor {
+    color: var(--bs-body-color);
+}
+
+/* Focus states for accessibility */
+.btn:focus,
+.form-control:focus,
+.nav-link:focus {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}

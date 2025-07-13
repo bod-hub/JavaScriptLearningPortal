@@ -1,10 +1,10 @@
 // Theme management
 function toggleTheme() {
-    const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme');
+    const body = document.getElementById('body');
+    const currentTheme = body.getAttribute('data-bs-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     
-    html.setAttribute('data-theme', newTheme);
+    body.setAttribute('data-bs-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     
     // Update theme icon
@@ -14,44 +14,14 @@ function toggleTheme() {
     }
 }
 
-// Mobile menu toggle
-function toggleMobileMenu() {
-    const navbarNav = document.getElementById('navbar-nav');
-    if (navbarNav) {
-        navbarNav.classList.toggle('active');
-    }
-}
-
-// Tab management
-function showTab(tabName) {
-    // Hide all tab contents
-    const tabContents = document.querySelectorAll('.tab-content');
-    tabContents.forEach(content => {
-        content.classList.remove('active');
-    });
-    
-    // Remove active class from all tab buttons
-    const tabButtons = document.querySelectorAll('.tab-button');
-    tabButtons.forEach(button => {
-        button.classList.remove('active');
-    });
-    
-    // Show selected tab content
-    const selectedTab = document.getElementById(tabName);
-    if (selectedTab) {
-        selectedTab.classList.add('active');
-    }
-    
-    // Add active class to clicked button
-    event.target.classList.add('active');
-}
-
 // Initialize theme on page load
 document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('theme') || 'light';
-    const html = document.documentElement;
+    const body = document.getElementById('body');
     
-    html.setAttribute('data-theme', savedTheme);
+    if (body) {
+        body.setAttribute('data-bs-theme', savedTheme);
+    }
     
     // Update theme icon
     const themeIcon = document.getElementById('theme-icon');
@@ -59,12 +29,19 @@ document.addEventListener('DOMContentLoaded', function() {
         themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     }
     
+    // Initialize tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
     // Auto-hide alerts
     const alerts = document.querySelectorAll('.alert');
     alerts.forEach(alert => {
         if (alert.classList.contains('alert-success') || alert.classList.contains('alert-info')) {
             setTimeout(() => {
-                alert.style.display = 'none';
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
             }, 5000);
         }
     });
@@ -98,233 +75,222 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auto-resize textareas
     const textareas = document.querySelectorAll('textarea[data-auto-resize]');
     textareas.forEach(textarea => {
-        textarea.style.overflow = 'hidden';
         textarea.addEventListener('input', function() {
             this.style.height = 'auto';
-            this.style.height = this.scrollHeight + 'px';
+            this.style.height = (this.scrollHeight) + 'px';
         });
-        // Trigger on load
-        textarea.dispatchEvent(new Event('input'));
-    });
-    
-    // Loading states for buttons
-    document.querySelectorAll('form').forEach(form => {
-        form.addEventListener('submit', function() {
-            const submitBtn = form.querySelector('button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Загрузка...';
-                
-                // Re-enable after 10 seconds as fallback
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalText;
-                }, 10000);
-            }
-        });
+        
+        // Initialize height
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
     });
     
     // Copy code functionality
     addCopyButtons();
     
-    // Progress tracking
+    // Lesson progress tracking
     trackLessonProgress();
+    
+    // Performance logging
+    logPerformance();
+    
+    // Accessibility improvements
+    improveAccessibility();
+    
+    // Add fade-in animations
+    const elements = document.querySelectorAll('.card, .alert, .level-card, .section-card, .lesson-card');
+    elements.forEach((element, index) => {
+        setTimeout(() => {
+            element.classList.add('fade-in');
+        }, index * 100);
+    });
 });
 
 // Add copy buttons to code blocks
 function addCopyButtons() {
     const codeBlocks = document.querySelectorAll('pre code');
-    codeBlocks.forEach(block => {
-        const wrapper = document.createElement('div');
-        wrapper.style.position = 'relative';
+    codeBlocks.forEach(codeBlock => {
+        const button = document.createElement('button');
+        button.className = 'btn btn-sm btn-outline-secondary copy-btn';
+        button.innerHTML = '<i class="fas fa-copy"></i>';
+        button.title = 'Копировать код';
         
-        const copyBtn = document.createElement('button');
-        copyBtn.className = 'btn btn-sm btn-outline-secondary';
-        copyBtn.style.position = 'absolute';
-        copyBtn.style.top = '0.5rem';
-        copyBtn.style.right = '0.5rem';
-        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
-        copyBtn.title = 'Копировать код';
-        
-        copyBtn.addEventListener('click', function() {
-            navigator.clipboard.writeText(block.textContent).then(() => {
-                copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+        button.addEventListener('click', function() {
+            navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                showNotification('Код скопирован!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i>';
                 setTimeout(() => {
-                    copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                    button.innerHTML = '<i class="fas fa-copy"></i>';
                 }, 2000);
             });
         });
         
-        block.parentNode.parentNode.insertBefore(wrapper, block.parentNode);
-        wrapper.appendChild(block.parentNode);
-        wrapper.appendChild(copyBtn);
+        const pre = codeBlock.parentElement;
+        pre.style.position = 'relative';
+        pre.appendChild(button);
+        
+        button.style.position = 'absolute';
+        button.style.top = '0.5rem';
+        button.style.right = '0.5rem';
     });
 }
 
 // Track lesson progress
 function trackLessonProgress() {
-    // Track time spent on lesson
-    let startTime = Date.now();
-    let isActive = true;
-    
-    // Track when user becomes inactive
-    document.addEventListener('visibilitychange', function() {
-        isActive = !document.hidden;
-        if (isActive) {
-            startTime = Date.now();
-        }
-    });
-    
-    // Save progress on page unload
-    window.addEventListener('beforeunload', function() {
-        const timeSpent = Math.floor((Date.now() - startTime) / 1000);
-        if (timeSpent > 10 && isActive) { // Only count if spent more than 10 seconds
-            localStorage.setItem('lesson_time_' + window.location.pathname, timeSpent);
-        }
-    });
+    // Implementation would go here for tracking user progress
+    // This could include time spent on lessons, completion status, etc.
 }
 
-// Utility functions
+// Show notification
 function showNotification(message, type = 'info') {
     const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    alertDiv.style.top = '20px';
+    alertDiv.style.right = '20px';
+    alertDiv.style.zIndex = '9999';
+    alertDiv.style.minWidth = '300px';
+    
     alertDiv.innerHTML = `
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
     
-    const container = document.querySelector('.container');
-    if (container) {
-        container.insertBefore(alertDiv, container.firstChild);
-        
-        // Auto-hide after 5 seconds
-        setTimeout(() => {
-            const bsAlert = new bootstrap.Alert(alertDiv);
-            bsAlert.close();
-        }, 5000);
-    }
+    document.body.appendChild(alertDiv);
+    
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+        if (alertDiv.parentElement) {
+            alertDiv.remove();
+        }
+    }, 3000);
 }
 
+// Format time helper
 function formatTime(seconds) {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
+    const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    
-    if (hours > 0) {
-        return `${hours}ч ${minutes}м`;
-    } else if (minutes > 0) {
-        return `${minutes}м ${remainingSeconds}с`;
-    } else {
-        return `${remainingSeconds}с`;
-    }
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
-// Keyboard shortcuts
-document.addEventListener('keydown', function(e) {
-    // Ctrl/Cmd + D for dark mode toggle
-    if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
-        e.preventDefault();
-        toggleTheme();
-    }
-    
-    // ESC to close modals and dropdowns
-    if (e.key === 'Escape') {
-        // Close any open modals
-        const modals = document.querySelectorAll('.modal.show');
-        modals.forEach(modal => {
-            const bsModal = bootstrap.Modal.getInstance(modal);
-            if (bsModal) bsModal.hide();
-        });
-        
-        // Close any open dropdowns
-        const dropdowns = document.querySelectorAll('.dropdown-menu.show');
-        dropdowns.forEach(dropdown => {
-            const bsDropdown = bootstrap.Dropdown.getInstance(dropdown.previousElementSibling);
-            if (bsDropdown) bsDropdown.hide();
-        });
-    }
-});
-
-// Enhanced form handling
+// Enhanced form validation
 function enhanceForm(formSelector) {
     const form = document.querySelector(formSelector);
     if (!form) return;
     
-    // Add loading state
-    form.addEventListener('submit', function() {
-        const submitBtn = form.querySelector('button[type="submit"]');
-        if (submitBtn) {
-            submitBtn.classList.add('loading');
-        }
-    });
-    
-    // Real-time validation
     const inputs = form.querySelectorAll('input, textarea, select');
     inputs.forEach(input => {
         input.addEventListener('blur', function() {
             validateField(this);
         });
+        
+        input.addEventListener('input', function() {
+            // Remove invalid class on input
+            this.classList.remove('is-invalid');
+        });
     });
 }
 
+// Field validation
 function validateField(field) {
-    const isValid = field.checkValidity();
-    field.classList.remove('is-valid', 'is-invalid');
-    field.classList.add(isValid ? 'is-valid' : 'is-invalid');
+    const value = field.value.trim();
+    const isRequired = field.hasAttribute('required');
+    const minLength = field.getAttribute('minlength');
+    const maxLength = field.getAttribute('maxlength');
+    const pattern = field.getAttribute('pattern');
     
-    // Show/hide custom error message
-    const errorDiv = field.parentNode.querySelector('.invalid-feedback');
-    if (errorDiv) {
-        errorDiv.style.display = isValid ? 'none' : 'block';
+    let isValid = true;
+    let errorMessage = '';
+    
+    if (isRequired && !value) {
+        isValid = false;
+        errorMessage = 'Это поле обязательно для заполнения';
+    } else if (minLength && value.length < parseInt(minLength)) {
+        isValid = false;
+        errorMessage = `Минимальная длина: ${minLength} символов`;
+    } else if (maxLength && value.length > parseInt(maxLength)) {
+        isValid = false;
+        errorMessage = `Максимальная длина: ${maxLength} символов`;
+    } else if (pattern && !new RegExp(pattern).test(value)) {
+        isValid = false;
+        errorMessage = 'Неверный формат данных';
     }
+    
+    // Update field appearance
+    if (isValid) {
+        field.classList.remove('is-invalid');
+        field.classList.add('is-valid');
+    } else {
+        field.classList.remove('is-valid');
+        field.classList.add('is-invalid');
+        
+        // Show error message
+        let feedback = field.parentElement.querySelector('.invalid-feedback');
+        if (!feedback) {
+            feedback = document.createElement('div');
+            feedback.className = 'invalid-feedback';
+            field.parentElement.appendChild(feedback);
+        }
+        feedback.textContent = errorMessage;
+    }
+    
+    return isValid;
 }
 
-// Performance monitoring
+// Performance logging
 function logPerformance() {
     if ('performance' in window) {
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                const perfData = performance.getEntriesByType('navigation')[0];
-                console.log('Page load time:', Math.round(perfData.loadEventEnd - perfData.fetchStart), 'ms');
-            }, 0);
+        window.addEventListener('load', () => {
+            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            console.log(`Page loaded in ${loadTime}ms`);
         });
     }
 }
 
-// Initialize performance monitoring in development
-if (window.location.hostname === 'localhost') {
-    logPerformance();
-}
-
 // Accessibility improvements
 function improveAccessibility() {
-    // Add skip links
+    // Add skip navigation link
     const skipLink = document.createElement('a');
-    skipLink.href = '#main-content';
-    skipLink.textContent = 'Перейти к основному содержимому';
-    skipLink.className = 'sr-only sr-only-focusable btn btn-primary';
+    skipLink.href = '#main';
+    skipLink.textContent = 'Перейти к основному содержанию';
+    skipLink.className = 'sr-only sr-only-focusable';
     skipLink.style.position = 'absolute';
-    skipLink.style.top = '10px';
-    skipLink.style.left = '10px';
-    skipLink.style.zIndex = '9999';
+    skipLink.style.top = '0';
+    skipLink.style.left = '0';
+    skipLink.style.zIndex = '10000';
+    skipLink.style.padding = '0.5rem';
+    skipLink.style.backgroundColor = 'var(--bs-primary)';
+    skipLink.style.color = 'white';
+    skipLink.style.textDecoration = 'none';
+    
     document.body.insertBefore(skipLink, document.body.firstChild);
     
-    // Add ARIA labels where missing
-    const buttons = document.querySelectorAll('button:not([aria-label]):not([aria-labelledby])');
-    buttons.forEach(button => {
-        if (!button.textContent.trim() && button.querySelector('i')) {
-            const icon = button.querySelector('i');
-            if (icon.classList.contains('fa-edit')) {
-                button.setAttribute('aria-label', 'Редактировать');
-            } else if (icon.classList.contains('fa-delete') || icon.classList.contains('fa-trash')) {
-                button.setAttribute('aria-label', 'Удалить');
-            } else if (icon.classList.contains('fa-plus')) {
-                button.setAttribute('aria-label', 'Добавить');
-            }
+    // Improve focus visibility
+    const style = document.createElement('style');
+    style.textContent = `
+        .btn:focus,
+        .form-control:focus,
+        .nav-link:focus {
+            outline: 2px solid var(--bs-primary) !important;
+            outline-offset: 2px !important;
         }
-    });
+    `;
+    document.head.appendChild(style);
 }
 
-// Initialize accessibility improvements
-document.addEventListener('DOMContentLoaded', improveAccessibility);
+// TinyMCE initialization (if needed for admin pages)
+if (typeof tinymce !== 'undefined') {
+    tinymce.init({
+        selector: '#editor',
+        height: 300,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | bold italic backcolor | \
+                  alignleft aligncenter alignright alignjustify | \
+                  bullist numlist outdent indent | removeformat | help',
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+    });
+}

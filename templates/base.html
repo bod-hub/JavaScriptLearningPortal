@@ -1,40 +1,44 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="light">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}JavaScript Learning Platform{% endblock %}</title>
     
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Quill Rich Text Editor -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- TinyMCE Editor -->
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    
     <!-- Custom CSS -->
-    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_original.css') }}">
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
+<body data-bs-theme="light" id="body">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <div class="navbar-content">
-                <a class="navbar-brand" href="{{ url_for('index') }}">
-                    <i class="fas fa-code"></i> JS Learning
-                </a>
-                
-                <button class="navbar-toggle" type="button" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
-                
-                <ul class="navbar-nav" id="navbar-nav">
-                    <li>
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <i class="fas fa-code"></i>
+                JavaScript Learning Platform
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('index') }}">
                             <i class="fas fa-home"></i> Главная
                         </a>
                     </li>
-                    <li>
-                        <button class="theme-toggle" onclick="toggleTheme()">
-                            <i class="fas fa-moon" id="theme-icon"></i>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-light btn-sm" onclick="toggleTheme()">
+                            <i id="theme-icon" class="fas fa-moon"></i>
                         </button>
                     </li>
                 </ul>
@@ -42,33 +46,31 @@
         </div>
     </nav>
 
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="container mt-3">
+    <main class="container my-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ 'danger' if category == 'error' else category }}">
+                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show">
                         {{ message }}
-                        <button type="button" class="alert-close" onclick="this.parentElement.style.display='none'">&times;</button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
-
-    <!-- Main Content -->
-    <main class="container">
+            {% endif %}
+        {% endwith %}
+        
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center">
-            <p>&copy; 2025 JavaScript Learning Platform. Создано для изучения JavaScript.</p>
+    <footer class="bg-dark text-light text-center py-4 mt-5">
+        <div class="container">
+            <p>&copy; 2024 JavaScript Learning Platform. Все права защищены.</p>
         </div>
     </footer>
 
-    <!-- Custom JS -->
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
