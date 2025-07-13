@@ -18,11 +18,11 @@ Preferred communication style: Simple, everyday language.
 - **Template Engine**: Jinja2 templating with Bootstrap 5 frontend
 
 ### Frontend Architecture
-- **UI Framework**: Bootstrap 5 with custom CSS theming
-- **JavaScript**: Vanilla JavaScript for interactivity and theme management
+- **UI Framework**: Pure CSS with custom responsive design (Bootstrap 5 removed)
+- **JavaScript**: Vanilla JavaScript for interactivity, theme management, and tab navigation
 - **Icons**: Font Awesome 6 for consistent iconography
-- **Rich Text**: TinyMCE integration for content editing
-- **Responsive Design**: Mobile-first approach with dark/light theme support
+- **Rich Text**: Quill Editor integration for content editing
+- **Responsive Design**: Mobile-first approach with dark/light theme support and CSS Grid layouts
 
 ## Key Components
 

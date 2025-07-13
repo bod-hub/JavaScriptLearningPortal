@@ -4,7 +4,7 @@
 
 {% block content %}
 <!-- Breadcrumb -->
-<nav aria-label="breadcrumb">
+<nav>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Главная</a></li>
         <li class="breadcrumb-item active">{{ level.title }}</li>
@@ -13,42 +13,42 @@
 
 <div class="level-header mb-4">
     <div class="d-flex align-items-center mb-3">
-        <div class="level-number me-3">{{ level.order }}</div>
-        <h1>{{ level.title }}</h1>
+        <div class="level-number">{{ level.order }}</div>
+        <h1 style="margin-left: 1rem;">{{ level.title }}</h1>
     </div>
     {% if level.description %}
-        <p class="lead">{{ level.description }}</p>
+        <p>{{ level.description }}</p>
     {% endif %}
 </div>
 
 {% if sections %}
-    <div class="row">
+    <div class="grid grid-3">
         {% for section in sections %}
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 section-card">
+            <div class="card">
+                <a href="{{ url_for('section_detail', section_id=section.id) }}" class="section-card">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
-                            <span class="section-number me-2">{{ section.order }}</span>
-                            <h5 class="card-title mb-0">{{ section.title }}</h5>
+                            <span class="section-number">{{ section.order }}</span>
+                            <h5 style="margin: 0 0 0 0.5rem;">{{ section.title }}</h5>
                         </div>
                         {% if section.description %}
-                            <p class="card-text text-muted">{{ section.description }}</p>
+                            <p class="text-muted">{{ section.description }}</p>
                         {% endif %}
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="badge bg-secondary">{{ section.lessons|length }} уроков</span>
-                            <a href="{{ url_for('section_detail', section_id=section.id) }}" class="btn btn-outline-primary">
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="section-number">{{ section.lessons|length }} уроков</span>
+                            <span class="btn btn-outline">
                                 Изучать <i class="fas fa-arrow-right"></i>
-                            </a>
+                            </span>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         {% endfor %}
     </div>
 {% else %}
     <div class="text-center">
         <div class="empty-state">
-            <i class="fas fa-folder-open fa-4x text-muted mb-3"></i>
+            <i class="fas fa-folder-open text-muted mb-3" style="font-size: 4rem;"></i>
             <h4 class="text-muted">Разделы пока не добавлены</h4>
             <p class="text-muted">В этом уровне пока нет разделов для изучения.</p>
         </div>
