@@ -8,6 +8,15 @@ This is a comprehensive JavaScript learning platform built with Flask that provi
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes (January 2025)
+
+- **Major Architecture Change**: Converted from dynamic database-driven structure to static HTML pages
+- **New Structure**: 4 separate HTML files for each level (level-1.html, level-2.html, level-3.html, level-4.html)
+- **Content Organization**: Each level contains 2 sections with 2 lesson cards each
+- **Navigation**: Added section navigation with anchor links for easy scrolling
+- **Bootstrap**: Maintained Bootstrap 5 for consistent styling
+- **Routes**: Updated Flask routes to serve static level pages
+
 ## System Architecture
 
 ### Backend Architecture
@@ -26,14 +35,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Key Components
 
-### Data Models
-- **Admin**: User authentication for content management
-- **Level**: Top-level course organization (e.g., "JavaScript Basics")
-- **Section**: Grouped lessons within levels (e.g., "Introduction to JavaScript")
-- **Lesson**: Individual learning units with theory content
-- **Question**: Multiple-choice quiz questions for lesson assessment
-- **Exercise**: Practical coding exercises (structure defined, implementation pending)
-- **UserProgress**: Session-based progress tracking without user registration
+### Content Structure
+- **Static Level Pages**: 4 HTML files for each learning level
+  - level-1.html: Основы JavaScript (variables, data types)
+  - level-2.html: Функции и объекты (functions, objects, arrays)
+  - level-3.html: DOM и события (DOM manipulation, events)
+  - level-4.html: Продвинутый JS (async programming, modules)
+- **Section Navigation**: Each level has internal navigation with anchor links
+- **Lesson Cards**: Each section contains lesson cards with theory, questions, and exercises
+- **Data Models**: Admin, Level, Section, Lesson, Question, Exercise, UserProgress (maintained for admin functionality)
 
 ### Content Management
 - **Admin Dashboard**: Hierarchical content overview with CRUD operations
@@ -56,12 +66,12 @@ Preferred communication style: Simple, everyday language.
 4. Content immediately available to learners
 
 ### Learning Flow
-1. User browses levels on homepage
-2. Selects level → section → lesson progression
-3. Studies theory content in tabbed interface
-4. Completes quiz questions (if available)
-5. Works on practical exercises (if available)
-6. Progress tracked via session ID stored in Flask session
+1. User browses 4 levels on homepage with course description section
+2. Selects level to access dedicated level page
+3. Uses section navigation to jump to specific topics via anchor links
+4. Views lesson cards organized by sections
+5. Each lesson card shows available content: theory, questions, exercises
+6. Static content structure with progress tracking (to be implemented)
 
 ### Assessment Flow
 1. User takes quiz by answering multiple-choice questions

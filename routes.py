@@ -9,15 +9,42 @@ import uuid
 
 @app.route('/')
 def index():
-    levels = Level.query.order_by(Level.order).all()
-    return render_template('index.html', levels=levels)
+    return render_template('index.html')
 
 
+@app.route('/level-1')
+def level_1():
+    return render_template('level-1.html')
+
+
+@app.route('/level-2')
+def level_2():
+    return render_template('level-2.html')
+
+
+@app.route('/level-3')
+def level_3():
+    return render_template('level-3.html')
+
+
+@app.route('/level-4')
+def level_4():
+    return render_template('level-4.html')
+
+
+# Legacy routes for backward compatibility
 @app.route('/level/<int:level_id>')
 def level_detail(level_id):
-    level = Level.query.get_or_404(level_id)
-    sections = Section.query.filter_by(level_id=level_id).order_by(Section.order).all()
-    return render_template('level.html', level=level, sections=sections)
+    if level_id == 1:
+        return redirect(url_for('level_1'))
+    elif level_id == 2:
+        return redirect(url_for('level_2'))
+    elif level_id == 3:
+        return redirect(url_for('level_3'))
+    elif level_id == 4:
+        return redirect(url_for('level_4'))
+    else:
+        return redirect(url_for('index'))
 
 
 @app.route('/section/<int:section_id>')
