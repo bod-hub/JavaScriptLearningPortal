@@ -249,6 +249,8 @@ main {
 
 .card-body {
     padding: 1rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .card-footer {
@@ -334,14 +336,40 @@ main {
     text-decoration: none;
     color: inherit;
     display: block;
+    margin-bottom: 1rem;
+}
+
+.lesson-number {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--secondary-color), #6c757d);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.lesson-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.lesson-meta span {
+    font-size: 0.875rem;
 }
 
 .lesson-status {
-    float: right;
     padding: 0.25rem 0.5rem;
     border-radius: var(--border-radius);
     font-size: 0.875rem;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .lesson-completed {
@@ -352,6 +380,42 @@ main {
 .lesson-pending {
     background-color: var(--warning-color);
     color: var(--dark-color);
+}
+
+/* Lesson card improvements */
+.lesson-card .d-flex {
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.lesson-card .d-flex > div {
+    min-width: 0; /* Allow flex items to shrink */
+}
+
+.lesson-card .d-flex > div:first-child {
+    flex: 1;
+    min-width: 200px; /* Minimum width for content */
+}
+
+.lesson-card .d-flex > div:last-child {
+    flex-shrink: 0; /* Don't shrink action buttons */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Responsive behavior for lesson cards */
+@media (max-width: 768px) {
+    .lesson-card .d-flex {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+    
+    .lesson-card .d-flex > div:last-child {
+        align-self: flex-end;
+        margin-top: 1rem;
+        justify-content: flex-end;
+    }
 }
 
 /* Forms */
@@ -732,5 +796,113 @@ footer {
     .card {
         border: 1px solid #000;
         box-shadow: none;
+    }
+}
+
+/* Additional styles for lesson cards and forms */
+.question-card {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--card-bg);
+}
+
+.question-text {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-left: calc(40px + 1rem);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--light-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.option:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.option input[type="radio"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary-color);
+}
+
+.option:has(input:checked) {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .option {
+    background-color: var(--dark-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .option:hover {
+    background-color: var(--primary-color);
+}
+
+/* Text overflow fixes for lesson cards */
+.lesson-meta span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+h5.mb-1 {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.3;
+}
+
+/* Ensure lesson cards don't overflow */
+.lesson-card .card-body {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.lesson-card h5 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 576px) {
+    .options {
+        margin-left: 0;
+    }
+    
+    .question-text {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .lesson-meta {
+        flex-direction: column;
+        gap: 0.25rem;
     }
 }
